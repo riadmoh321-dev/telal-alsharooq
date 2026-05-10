@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>تلال الشروق - المخطط التفاعلي</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Cairo',sans-serif;
+}
+
+body{
+    background:#000;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+/* العناوين */
+.section-title {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 800;
+    margin: 60px 0 30px;
+    background: linear-gradient(to right, #fff, #ffcf8a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    z-index: 2;
+}
+
+/* الخلفية المتحركة */
+.background-slider{
+    position:fixed;
+    inset:0;
+    z-index:-5;
+}
+
+.background-slider img{
+    position:absolute;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:0;
+    animation:slider 24s infinite;
+    transform:scale(1.08);
+}
+
+.background-slider img:nth-child(1){ animation-delay:0s; }
+.background-slider img:nth-child(2){ animation-delay:8s; }
+.background-slider img:nth-child(3){ animation-delay:16s; }
+
+@keyframes slider{
+    0%{ opacity:0; transform:scale(1.08); }
+    8%{ opacity:1; }
+    30%{ opacity:1; transform:scale(1.15); }
+    38%{ opacity:0; }
+    100%{ opacity:0; transform:scale(1.08); }
+}
+
+/* طبقة الفخامة */
+.overlay{
+    position:fixed;
+    inset:0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.55), rgba(0,0,0,0.8));
+    backdrop-filter:blur(2px);
+    z-index:-4;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background: radial-gradient(circle at top right,#ffb34744,transparent 30%), radial-gradient(circle at bottom left,#ff7b0033,transparent 25%);
+    z-index:-3;
+}
+
+/* الهيدر */
+header{
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    overflow:hidden;
+    padding:80px 20px;
+}
+
+.top-actions{
+    position:absolute;
+    top:35px;
+    left:35px;
+    display:flex;
+    gap:12px;
+    z-index:999;
+}
+
+.action-btn{
+    width:50px;
+    height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:15px;
+    text-decoration:none;
+    color:#fff;
+    font-size:20px;
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.1);
+    background:rgba(255,255,255,0.08);
+    transition:0.4s;
+    box-shadow:0 10px 30px rgba(0,0,0,0.25);
+}
+
+.action-btn:hover{ transform:translateY(-3px) scale(1.05); }
+.whatsapp:hover{ background:#25D366; }
+.call:hover{ background:#ffb347; color:#111; }
+.twitter:hover{ background:#1DA1F2; }
+.email:hover{ background:#ea4335; }
+
+/* التأثيرات العائمة */
+.blur{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(80px);
+    animation:float 8s ease-in-out infinite;
+}
+.blur1{ width:400px; height:400px; background:#ff8c00; top:-100px; right:-100px; }
+.blur2{ width:350px; height:350px; background:#ffcc70; bottom:-120px; left:-120px; animation-delay:2s; }
+.blur3{ width:250px; height:250px; background:#ffffff22; top:50%; left:50%; transform:translate(-50%,-50%); animation-delay:4s; }
+
+@keyframes float{ 0%,100%{ transform:translateY(0px); } 50%{ transform:translateY(-25px); } }
+
+.hero-title{ position:relative; z-index:5; text-align:center; }
+.hero-title h1{
+    font-size:110px; font-weight:900; letter-spacing:2px;
+    background:linear-gradient(to right,#fff,#ffcf8a,#fff);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    animation:glow 3s ease-in-out infinite;
+}
+.hero-subtitle{ margin-top:18px; font-size:24px; color:#f5f5f5; line-height:2; max-width:750px; margin:auto; }
+.hero-subtitle span{ color:#ffcf8a; font-weight:700; }
+
+@keyframes glow{ 0%,100%{ filter:drop-shadow(0 0 20px #ffb34755); } 50%{ filter:drop-shadow(0 0 40px #ffcf8a); } }
+
+/* كرت التواصل */
+.contact-card{
+    width:450px; margin:auto; margin-top:45px; padding:40px; border-radius:35px;
+    background:rgba(255,255,255,0.08); backdrop-filter:blur(30px);
+    border:1px solid rgba(255,255,255,0.12); box-shadow: 0 20px 60px rgba(0,0,0,0.45), inset 0 1px 1px rgba(255,255,255,0.08);
+    position:relative; overflow:hidden; transition:0.5s;
+}
+.contact-card:hover{ transform:translateY(-8px) scale(1.01); }
+.contact-card h2{ text-align:center; margin-bottom:30px; font-size:34px; font-weight:900; background:linear-gradient(to right,#fff,#ffcf8a); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+
+.input-box{ margin-bottom:22px; position:relative; z-index:2; }
+.input-box input{
+    width:100%; padding:20px 22px; border:none; outline:none; border-radius:20px;
+    background:rgba(255,255,255,0.08); color:#fff; font-size:16px; border:1px solid rgba(255,255,255,0.05); transition: 0.4s;
+}
+.input-box input:focus{ border-color:#ffcf8a; background:rgba(255,255,255,0.12); transform: scale(1.02); }
+
+.contact-card button{
+    width:100%; padding:20px; border:none; border-radius:20px; font-size:18px; font-weight:800;
+    background:linear-gradient(135deg,#ffcf8a,#ff9f43); color:#111; cursor:pointer; transition:0.4s;
+}
+
+/* السلايدر العلوي */
+.project-slider{ width:100%; overflow:hidden; padding:40px 0 10px; position:relative; }
+.slider-track{ display:flex; width:calc(400px * 10); animation:scroll 35s linear infinite; }
+.slide{ width:380px; height:240px; margin:0 15px; border-radius:30px; overflow:hidden; position:relative; flex-shrink:0; box-shadow:0 15px 40px rgba(0,0,0,0.35); }
+.slide img{ width:100%; height:100%; object-fit:cover; transition:0.6s; }
+.slide:hover img{ transform:scale(1.08); }
+
+@keyframes scroll{ 0%{ transform:translateX(0); } 100%{ transform:translateX(-50%); } }
+
+/* الكروت والمعرض */
+.gallery{ width:100%; padding:20px 8% 80px; display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:30px; }
+.card{ position:relative; height:420px; border-radius:30px; overflow:hidden; cursor:pointer; transition:0.5s; background:#111; }
+.card img{ width:100%; height:100%; object-fit:cover; transition:0.7s; }
+.card:hover img{ transform:scale(1.12); }
+.card-content{ position:absolute; bottom:30px; right:25px; z-index:2; }
+.card-content h3{ font-size:28px; margin-bottom:10px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+.card-content p{ color:#ddd; line-height:1.8; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+
+/* --- تحديث نظام الأوتوكاد التفاعلي الفاخر --- */
+.interactive-map { width: 100%; padding: 60px 8%; text-align: center; }
+.autocad-viewport {
+    width: 100%; height: 600px; background: #0a0a0a; border-radius: 40px;
+    border: 1px solid rgba(255,207,138,0.3); position: relative; overflow: hidden;
+    cursor: grab; box-shadow: 0 40px 100px rgba(0,0,0,0.8); margin: 30px auto;
+}
+.autocad-viewport:active { cursor: grabbing; }
+
+.cad-ui {
+    position: absolute; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 100;
+}
+.cad-btn {
+    width: 45px; height: 45px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; border-radius: 12px; cursor: pointer; backdrop-filter: blur(10px); transition: 0.3s;
+}
+.cad-btn:hover { background: #ffcf8a; color: #000; }
+
+.cad-coords {
+    position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.7);
+    padding: 6px 15px; border-radius: 8px; font-family: monospace; font-size: 13px;
+    color: #0f0; border: 1px solid #333; z-index: 100;
+}
+
+#cadWrapper { width: 100%; height: 100%; transform-origin: 0 0; }
+
+.land-plot {
+    fill: transparent; stroke: rgba(255, 207, 138, 0.3);
+    stroke-width: 1.5; cursor: pointer; transition: 0.3s ease;
+}
+.land-plot:hover {
+    fill: rgba(255, 207, 138, 0.4); stroke: #ffcf8a; stroke-width: 3;
+}
+
+.plot-info {
+    position: fixed; padding: 18px; background: rgba(10, 10, 10, 0.95);
+    border: 1px solid #ffcf8a; border-radius: 20px; color: #fff;
+    display: none; z-index: 9999; pointer-events: none; backdrop-filter: blur(15px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.8); text-align: right;
+}
+.status-tag { display: inline-block; padding: 4px 12px; border-radius: 8px; font-size: 13px; margin-top: 10px; font-weight: 700; }
+.status-available { background: #2ecc71; }
+.status-reserved { background: #f1c40f; color: #000; }
+/* ------------------------------------------- */
+
+.luxury{ width:100%; padding:100px 10% 40px; text-align:center; }
+.luxury h2{ font-size:60px; margin-bottom:25px; background:linear-gradient(to right,#fff,#ffcf8a); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.luxury p{ max-width:900px; margin:auto; color:#ddd; line-height:2.3; font-size:20px; }
+
+/* موقع المشروع */
+.project-location { width: 100%; padding: 60px 8% 100px; text-align: center; }
+.map-container {
+    width: 100%; height: 600px; border-radius: 40px; overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+.map-container iframe { width: 100%; height: 100%; border: none; }
+
+footer{ padding:50px; text-align:center; color:#bbb; border-top:1px solid rgba(255,255,255,0.08); margin-top:80px; }
+
+@media(max-width:768px){
+    .hero-title h1{ font-size:60px; }
+    .hero-subtitle{ font-size:18px; }
+    .contact-card{ width:95%; }
+}
+</style>
+</head>
+<body>
+
+<div class="background-slider">
+<img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=2000">
+<img src="https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=2000">
+<img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2000">
+</div>
+
+<div class="overlay"></div>
+
+<header>
+<div class="top-actions">
+<a href="https://wa.me/966500000000" class="action-btn whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+<a href="tel:+966500000000" class="action-btn call"><i class="fa-solid fa-phone"></i></a>
+<a href="#" class="action-btn twitter"><i class="fa-brands fa-x-twitter"></i></a>
+<a href="mailto:info@sunrise-hills.com" class="action-btn email"><i class="fa-solid fa-envelope"></i></a>
+</div>
+<div class="blur blur1"></div>
+<div class="blur blur2"></div>
+<div class="blur blur3"></div>
+
+<div class="hero-title">
+    <h1>تلال الشروق</h1>
+    <p class="hero-subtitle">
+        امتلك مستقبلك اليوم في موقع استثنائي ✨  
+        <span>احجز أرضك الآن</span> وابدأ استثمارك في واحدة من أكثر الوجهات الواعدة فخامةً وتميزاً.
+    </p>
+    <div class="contact-card">
+        <h2>تواصل معنا</h2>
+        <form>
+            <div class="input-box"><input type="text" placeholder="الاسم الكامل"></div>
+            <div class="input-box"><input type="email" placeholder="البريد الإلكتروني"></div>
+            <div class="input-box"><input type="tel" placeholder="رقم الهاتف"></div>
+            <button type="submit">إرسال الطلب</button>
+        </form>
+    </div>
+</div>
+</header>
+
+<h2 class="section-title">صور المشروع</h2>
+<section class="project-slider">
+<div class="slider-track">
+    <div class="slide"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400"></div>
+    <div class="slide"><img src="https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1400"></div>
+    <div class="slide"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400"></div>
+    <div class="slide"><img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1400"></div>
+    <div class="slide"><img src="https://images.unsplash.com/photo-1448630360428-65456885c650?q=80&w=1400"></div>
+    <!-- التكرار للسلاسة -->
+    <div class="slide"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400"></div>
+    <div class="slide"><img src="https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1400"></div>
+    <div class="slide"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400"></div>
+    <div class="slide"><img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1400"></div>
+    <div class="slide"><img src="https://images.unsplash.com/photo-1448630360428-65456885c650?q=80&w=1400"></div>
+</div>
+</section>
+
+<h2 class="section-title">صور من أرض الواقع</h2>
+<section class="gallery">
+<div class="card">
+    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400">
+    <div class="card-content"><h3>تصميم عصري</h3><p>واجهة انسيابية بتأثيرات بصرية فاخرة.</p></div>
+</div>
+<div class="card">
+    <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1400">
+    <div class="card-content"><h3>رؤية مستقبلية</h3><p>تفاصيل راقية تعكس الفخامة والهدوء.</p></div>
+</div>
+<div class="card">
+    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400">
+    <div class="card-content"><h3>أسلوب فاخر</h3><p>تجربة مرئية احترافية وانيميشن سلس.</p></div>
+</div>
+</section>
+
+<section class="luxury">
+    <h2>مشروع استثنائي</h2>
+    <p>لا تشتري مجرد أرض، بل استثمر في إرثٍ يتوارثه الأجيال. تلال الشروق حيث تجتمع رفاهية السكن مع عوائد المستقبل في قلب الطبيعة وبأرقى المعايير العالمية.</p>
+</section>
+
+<h2 class="section-title">مميزات المشروع</h2>
+<section class="gallery">
+<div class="card">
+    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1400">
+    <div class="card-content"><h3>قريب من الخدمات</h3><p>موقع استراتيجي بجوار المراكز التجارية والحيوية.</p></div>
+</div>
+<div class="card">
+    <img src="https://images.unsplash.com/photo-1584467541268-b040f83be3fd?q=80&w=1400">
+    <div class="card-content"><h3>بنية تحتية متكاملة</h3><p>شبكات مياه وكهرباء وطرق بأعلى المواصفات.</p></div>
+</div>
+<div class="card">
+    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400">
+    <div class="card-content"><h3>إطلالة ساحرة</h3><p>تخطيط عمراني يضمن لك الهدوء والجمال.</p></div>
+</div>
+</section>
+
+<!-- خريطة المشروع التفاعلية (قسم الأوتوكاد المحدث فقط) -->
+<section class="interactive-map">
+    <h2 class="section-title">استكشف المخطط التفاعلي</h2>
+    <div class="autocad-viewport" id="viewport">
+        <div class="cad-ui">
+            <button class="cad-btn" onclick="zoomIn()"><i class="fa-solid fa-plus"></i></button>
+            <button class="cad-btn" onclick="zoomOut()"><i class="fa-solid fa-minus"></i></button>
+            <button class="cad-btn" onclick="resetView()"><i class="fa-solid fa-expand"></i></button>
+        </div>
+        <div class="cad-coords" id="coords">X: 0, Y: 0</div>
+        
+        <div id="cadWrapper">
+            <svg id="cadSvg" viewBox="0 0 1100 550" style="width:1100px; height:550px;">
+                <image href="https://pahw.gov.kw/images/projects%20images/new/N1/3.jpg" x="0" y="0" width="1100" height="550" opacity="0.5" />
+                <g id="plotsGroup"></g>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<!-- موقع المشروع الجغرافي -->
+<section class="project-location">
+    <h2 class="section-title">موقع المشروع</h2>
+    <div class="map-container">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1812.35!2d46.721!3d24.675!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sar!2ssa!4v1715310000000!5m2!1sar!2ssa&maptype=satellite" 
+            allowfullscreen="" loading="lazy">
+        </iframe>
+    </div>
+</section>
+
+<div id="plotInfo" class="plot-info"></div>
+<footer>©️ 2026 تلال الشروق — جميع الحقوق محفوظة</footer>
+
+<script>
+// تأثير الماوس الأصلي على الخلفية
+document.addEventListener("mousemove",(e)=>{
+    let x = e.clientX / window.innerWidth;
+    let y = e.clientY / window.innerHeight;
+    let b1 = document.querySelector(".blur1");
+    let b2 = document.querySelector(".blur2");
+    if(b1) b1.style.transform = `translate(${x * 30}px, ${y * 30}px)`;
+    if(b2) b2.style.transform = `translate(${-x * 30}px, ${-y * 30}px)`;
+});
+
+/* --- كود الأوتوكاد المحدث --- */
+let scale = 1, tx = 0, ty = 0, isDragging = false, startX, startY;
+const viewport = document.getElementById('viewport');
+const wrapper = document.getElementById('cadWrapper');
+const infoBox = document.getElementById('plotInfo');
+const plotsGroup = document.getElementById('plotsGroup');
+
+// توليد القطع
+function createPlots() {
+    for (let r = 0; r < 6; r++) {
+        for (let c = 0; c < 10; c++) {
+            let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            rect.setAttribute("x", 120 + (c * 90));
+            rect.setAttribute("y", 80 + (r * 60));
+            rect.setAttribute("width", 80);
+            rect.setAttribute("height", 50);
+            rect.setAttribute("class", "land-plot");
+            
+            let status = Math.random() > 0.3 ? 'متاحة' : 'محجوزة';
+            let sClass = status === 'متاحة' ? 'status-available' : 'status-reserved';
+
+            rect.addEventListener('mouseover', (e) => {
+                infoBox.style.display = 'block';
+                infoBox.innerHTML = `<b>بلوك: ${String.fromCharCode(65+r)}-${c+10}</b>المساحة: 450 م²<br>الحالة: <span class="status-tag ${sClass}">${status}</span>`;
+            });
+            rect.addEventListener('mousemove', (e) => {
+                infoBox.style.top = (e.clientY + 20) + 'px';
+                infoBox.style.left = (e.clientX + 20) + 'px';
+            });
+            rect.addEventListener('mouseout', () => infoBox.style.display = 'none');
+            plotsGroup.appendChild(rect);
+        }
+    }
+}
+
+// تحريك وكوردينات
+viewport.onmousedown = (e) => { isDragging = true; startX = e.clientX - tx; startY = e.clientY - ty; viewport.style.cursor = 'grabbing'; };
+window.onmouseup = () => { isDragging = false; viewport.style.cursor = 'grab'; };
+window.onmousemove = (e) => {
+    if (isDragging) { tx = e.clientX - startX; ty = e.clientY - startY; update(); }
+    let rect = viewport.getBoundingClientRect();
+    document.getElementById('coords').innerText = `X: ${Math.round((e.clientX - rect.left - tx)/scale)}, Y: ${Math.round((e.clientY - rect.top - ty)/scale)}`;
+};
+viewport.onwheel = (e) => { e.preventDefault(); scale *= e.deltaY > 0 ? 0.9 : 1.1; update(); };
+
+function zoomIn() { scale *= 1.2; update(); }
+function zoomOut() { scale *= 0.8; update(); }
+function resetView() { scale = 1; tx = 0; ty = 0; update(); }
+function update() { wrapper.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`; }
+
+createPlots();
+</script>
+
+</body>
+</html>
