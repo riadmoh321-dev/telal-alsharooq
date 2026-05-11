@@ -186,7 +186,7 @@ header{
 .feature-item h3 { font-size: 22px; margin-bottom: 10px; color: #fff; }
 .feature-item p { color: #bbb; font-size: 15px; line-height: 1.6; }
 
-/* قسم شركاء النجاح الجديد */
+/* قسم شركاء النجاح */
 .partners-section {
     width: 100%; padding: 60px 8%; display: flex;
     justify-content: center; gap: 30px; flex-wrap: wrap;
@@ -227,49 +227,77 @@ header{
 .card-content h3{ font-size:28px; margin-bottom:10px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
 .card-content p{ color:#ddd; line-height:1.8; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
 
-/* نظام الأوتوكاد التفاعلي */
-.interactive-map { width: 100%; padding: 60px 8%; text-align: center; }
-.autocad-viewport {
-    width: 100%; height: 600px; background: #0a0a0a; border-radius: 40px;
+/* ----------------------------------------------------------------- */
+/* نظام المخطط التفاعلي المحدث */
+/* ----------------------------------------------------------------- */
+.autocad-section {
+    width: 100%; padding: 40px 5%; text-align: center; overflow: hidden;
+}
+
+#viewport-3d {
+    width: 100%; height: 650px; background: #0a0a0a; border-radius: 40px;
     border: 1px solid rgba(255,207,138,0.3); position: relative; overflow: hidden;
-    cursor: grab; box-shadow: 0 40px 100px rgba(0,0,0,0.8); margin: 30px auto;
+    cursor: grab; box-shadow: 0 40px 100px rgba(0,0,0,0.8); margin: 20px auto;
 }
-.autocad-viewport:active { cursor: grabbing; }
+#viewport-3d:active { cursor: grabbing; }
 
-.cad-ui {
-    position: absolute; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 100;
-}
-.cad-btn {
-    width: 45px; height: 45px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-    color: #fff; border-radius: 12px; cursor: pointer; backdrop-filter: blur(10px); transition: 0.3s;
-}
-.cad-btn:hover { background: #ffcf8a; color: #000; }
-
-.cad-coords {
-    position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.7);
-    padding: 6px 15px; border-radius: 8px; font-family: monospace; font-size: 13px;
-    color: #0f0; border: 1px solid #333; z-index: 100;
+#zoom-container-3d {
+    position: absolute; transform-origin: 0 0; 
+    transition: transform 0.05s linear; padding: 50px;
 }
 
-#cadWrapper { width: 100%; height: 100%; transform-origin: 0 0; }
-
-.land-plot {
-    fill: transparent; stroke: rgba(255, 207, 138, 0.3);
-    stroke-width: 1.5; cursor: pointer; transition: 0.3s ease;
-}
-.land-plot:hover {
-    fill: rgba(255, 207, 138, 0.4); stroke: #ffcf8a; stroke-width: 3;
+.main-board-3d {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+    gap: 30px; padding: 40px; background: #dfe4ea; border: 4px solid #1e272e;
+    border-radius: 15px; width: 1800px;
 }
 
-.plot-info {
-    position: fixed; padding: 18px; background: rgba(10, 10, 10, 0.95);
-    border: 1px solid #ffcf8a; border-radius: 20px; color: #fff;
-    display: none; z-index: 9999; pointer-events: none; backdrop-filter: blur(15px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.8); text-align: right;
+.block-unit-3d {
+    position: relative; background: #ffffff; border: 2px solid #555; padding: 12px;
+    border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
 }
-.status-tag { display: inline-block; padding: 4px 12px; border-radius: 8px; font-size: 13px; margin-top: 10px; font-weight: 700; }
-.status-available { background: #2ecc71; }
-.status-reserved { background: #f1c40f; color: #000; }
+
+.block-bg-id-3d {
+    position: absolute; top: 10px; right: 10px;
+    font-size: 20px; font-weight: 900; color: rgba(0, 0, 0, 0.15);
+    z-index: 1; pointer-events: none;
+}
+
+/* تقسيم الشبكة لـ 20 قطعة (2 صف × 10 أعمدة) */
+.plots-layout-3d {
+    display: grid; 
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(2, 45px); 
+    gap: 3px; z-index: 2; position: relative;
+}
+
+.plot-3d {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: bold; color: white; cursor: pointer;
+    transition: 0.2s; border-radius: 3px; 
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.plot-3d:hover { transform: scale(1.15); z-index: 50; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+
+/* ألوان الحالات المطلوبة */
+.available-3d { background: #3498db; } /* أزرق - متاح */
+.sold-3d { background: #e74c3c; }      /* أحمر - مبيوع */
+.reserved-3d { background: #95a5a6; }  /* رمادي - محجوز */
+
+.cad-coords-3d {
+    position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8);
+    padding: 8px 18px; border-radius: 10px; font-family: monospace; font-size: 13px;
+    color: #ffcf8a; border: 1px solid #ffcf8a44; z-index: 1000;
+}
+
+.info-popup-3d {
+    position: fixed; background: rgba(0, 0, 0, 0.95); color: white;
+    padding: 15px; border-radius: 12px; display: none; font-size: 14px;
+    z-index: 99999; pointer-events: none; border-right: 5px solid #ffcf8a;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: right; line-height: 1.6;
+}
+/* ----------------------------------------------------------------- */
 
 .luxury{ width:100%; padding:80px 10% 40px; text-align:center; }
 .luxury h2{ font-size:60px; margin-bottom:25px; background:linear-gradient(to right,#fff,#ffcf8a); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
@@ -316,7 +344,7 @@ footer{ padding:50px; text-align:center; color:#bbb; border-top:1px solid rgba(2
 <div class="blur blur3"></div>
 
 <div class="hero-title">
-    <h1>تلال الشروق</h1>
+    <h1>تلال الشروق اللوجستي </h1>
     <p class="hero-subtitle">
         امتلك مستقبلك اليوم في موقع استثنائي ✨  
         <span>احجز أرضك الآن</span> وابدأ استثمارك في واحدة من أكثر الوجهات الواعدة فخامةً وتميزاً.
@@ -360,17 +388,21 @@ footer{ padding:50px; text-align:center; color:#bbb; border-top:1px solid rgba(2
 <h2 class="section-title">شركاء النجاح</h2>
 <section class="partners-section">
     <div class="partner-card">
-        <div class="partner-label">المطور العقاري</div>
+        <div class="partner-label">المطور والمسوق </div>
         <i class="fa-solid fa-building-user"></i>
         <h3>شركة العامرية</h3>
-        <p>رؤية رائدة في التطوير العمراني، نحول الأراضي إلى مجتمعات حيوية بأعلى معايير الجودة والإتقان الهندسي.</p>
+        <p>منذ تأسيس شركة العامرية قبل أكثر من أربعة عقود، بدأ رحلتنا في مجال التطوير العقاري، حيث شمل عملنا تطوير الأراضي والمشاريع العقارية المختلفة. وأول وحدة بناء تم اعتماد الجواز على طريق الملك فهد، بأكثر من عشرة طوابق في عام ١٤١٠ هـ.
+
+بحلول عام ٢٠٠٩، قمنا بتحويل شركة العقارات إلى شركة استثمارية تعمل في قطاعات أساسية مثل التطوير العقاري، حيث استثمرنا في مجمعات سكنية فاخرة ووحدة سكنية فاخرة إلى بناء ٦٠٠ وحدة سكنية بالشراكة مع البنك الإسلامي للتنمية في عام ٢٠١٦، منافسين أهم العلامات التجارية بالمملكة.
+
+نهدف إلى الاستثمار في القطاعات العقارية والصناعية والسياحية والطاقة، مع التركيز على تقديم منتجات وحلول حديثة تتميز بالجودة والكفاءة المتنوعة. كما نعمل على استقطاب وتدريب الشباب السعودي لمواكبة رؤية المملكة ٢٠٣٠، التي تتقدم بسرعة في تحقيق أهدافها بالتعاون مع القطاع الخاص.</p>
     </div>
 
     <div class="partner-card">
-        <div class="partner-label">المالك والممول</div>
+        <div class="partner-label">المالك </div>
         <i class="fa-solid fa-landmark-dome"></i>
-        <h3>بنك الإنماء للاستثمار</h3>
-        <p>نقدم الموثوقية التامة والأمان المالي، لضمان استثمار عقاري آمن ومستدام لكل عملائنا في مشروع تلال الشروق.</p>
+        <h3>الإنماء للاستثمار</h3>
+        <p>قامت شركة الإنماء للاستثمار، الذراع الاستثماري لبنك الإنماء وصندوق الإنماء العقاري، بتأسيس مخطط الإنماء اللوجستي للاستثمار والتطوير مع القطاع الخاص.</p>
     </div>
 </section>
 
@@ -383,6 +415,17 @@ footer{ padding:50px; text-align:center; color:#bbb; border-top:1px solid rgba(2
     <div class="slide"><img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=2000"></div>
     <div class="slide"><img src="https://images.unsplash.com/photo-1448630360428-65456885c650?q=80&w=1400"></div>
 </div>
+</section>
+
+<!-- قسم المخطط التفاعلي المحدث -->
+<h2 class="section-title">المخطط التفاعلي المطور</h2>
+<section class="autocad-section">
+    <div id="viewport-3d">
+        <div id="zoom-container-3d">
+            <div class="main-board-3d" id="mapContainer-3d"></div>
+        </div>
+        <div class="cad-coords-3d" id="coords-3d">X: 0.00, Y: 0.00 | ZOOM: 80%</div>
+    </div>
 </section>
 
 <h2 class="section-title">صور من أرض الواقع</h2>
@@ -401,24 +444,6 @@ footer{ padding:50px; text-align:center; color:#bbb; border-top:1px solid rgba(2
 </div>
 </section>
 
-<h2 class="section-title">استكشف المخطط التفاعلي</h2>
-<section class="interactive-map">
-    <div class="autocad-viewport" id="viewport">
-        <div class="cad-ui">
-            <button class="cad-btn" onclick="zoomIn()"><i class="fa-solid fa-plus"></i></button>
-            <button class="cad-btn" onclick="zoomOut()"><i class="fa-solid fa-minus"></i></button>
-            <button class="cad-btn" onclick="resetView()"><i class="fa-solid fa-expand"></i></button>
-        </div>
-        <div class="cad-coords" id="coords">X: 0, Y: 0</div>
-        <div id="cadWrapper">
-            <svg id="cadSvg" viewBox="0 0 1100 550" style="width:1100px; height:550px;">
-                <image href="https://pahw.gov.kw/images/projects%20images/new/N1/3.jpg" x="0" y="0" width="1100" height="550" opacity="0.5" />
-                <g id="plotsGroup"></g>
-            </svg>
-        </div>
-    </div>
-</section>
-
 <section class="luxury">
     <h2>مشروع استثنائي</h2>
     <p>تلال الشروق حيث تجتمع رفاهية السكن مع عوائد المستقبل في قلب الرياض.</p>
@@ -435,10 +460,11 @@ footer{ padding:50px; text-align:center; color:#bbb; border-top:1px solid rgba(2
     </div>
 </section>
 
-<div id="plotInfo" class="plot-info"></div>
+<div id="infoPopup-3d" class="info-popup-3d"></div>
 <footer>©️ 2026 تلال الشروق — جميع الحقوق محفوظة</footer>
 
 <script>
+/* جافا سكربت للموقع الأساسي */
 document.addEventListener("mousemove",(e)=>{
     let x = e.clientX / window.innerWidth, y = e.clientY / window.innerHeight;
     let b1 = document.querySelector(".blur1"), b2 = document.querySelector(".blur2");
@@ -446,56 +472,127 @@ document.addEventListener("mousemove",(e)=>{
     if(b2) b2.style.transform = `translate(${-x * 30}px, ${-y * 30}px)`;
 });
 
-let scale = 1, tx = 0, ty = 0, isDragging = false, startX, startY;
-const viewport = document.getElementById('viewport'), wrapper = document.getElementById('cadWrapper'), infoBox = document.getElementById('plotInfo'), plotsGroup = document.getElementById('plotsGroup');
+/* ----------------------------------------------------------------- */
+/* جافا سكربت المخطط التفاعلي المحدث */
+/* ----------------------------------------------------------------- */
+const mapContainer3d = document.getElementById('mapContainer-3d');
+const zoomContainer3d = document.getElementById('zoom-container-3d');
+const viewport3d = document.getElementById('viewport-3d');
+const infoPopup3d = document.getElementById('infoPopup-3d');
+const coords3d = document.getElementById('coords-3d');
 
-function createPlots() {
-    for (let r = 0; r < 6; r++) {
-        for (let c = 0; c < 10; c++) {
-            let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-            rect.setAttribute("x", 120 + (c * 90)); rect.setAttribute("y", 80 + (r * 60));
-            rect.setAttribute("width", 80); rect.setAttribute("height", 50);
-            rect.setAttribute("class", "land-plot");
-            
-            // بيانات افتراضية للمساحة والحالة
-            let area = Math.floor(Math.random() * (900 - 400 + 1)) + 400;
-            let status = Math.random() > 0.3 ? 'متاحة' : 'محجوزة';
-            let sClass = status === 'متاحة' ? 'status-available' : 'status-reserved';
-            let plotNum = c + 101 + (r * 10);
-            let blockNum = String.fromCharCode(65 + r);
+let scale3d = 0.8;
+let pos3d = { x: 50, y: 50 };
+let isDragging3d = false;
+let startPos3d = { x: 0, y: 0 };
 
-            rect.addEventListener('mouseover', (e) => {
-                infoBox.style.display = 'block';
-                // تحديث العرض المطلوب: بلوك، رقم قطعة، مساحة، حالة
-                infoBox.innerHTML = `
-                    <div style="font-weight:900; color:#ffcf8a; border-bottom:1px solid #333; margin-bottom:8px; padding-bottom:5px;">بيانات القطعة</div>
-                    <b>البلوك:</b> ${blockNum}<br>
-                    <b>رقم القطعة:</b> ${plotNum}<br>
-                    <b>المساحة:</b> ${area} م²<br>
-                    <b>الحالة:</b> <span class="status-tag ${sClass}">${status}</span>
-                `;
-            });
-            rect.addEventListener('mousemove', (e) => { infoBox.style.top = (e.clientY + 20) + 'px'; infoBox.style.left = (e.clientX + 20) + 'px'; });
-            rect.addEventListener('mouseout', () => infoBox.style.display = 'none');
-            plotsGroup.appendChild(rect);
+// أرقام البلوكات
+const blockNumbers3d = ["12", "13", "14", "15", "89", "90", "91", "92", "93", "94"];
+let globalPlotCounter = 1;
+
+blockNumbers3d.forEach((bNum) => {
+    const block = document.createElement('div');
+    block.className = 'block-unit-3d';
+    
+    // رقم البلوك في الخلفية
+    const bgText = document.createElement('div');
+    bgText.className = 'block-bg-id-3d'; 
+    bgText.innerText = `بلوك ${bNum}`;
+    block.appendChild(bgText);
+    
+    // شبكة القطع (2 صف في 10 أعمدة = 20 قطعة)
+    const grid = document.createElement('div');
+    grid.className = 'plots-layout-3d';
+
+    for (let i = 1; i <= 20; i++) {
+        const plot = document.createElement('div');
+        const rand = Math.random();
+        let statusClass, statusText, statusColor;
+
+        // تحديد الحالة بناءً على اللون المطلوب
+        if (rand > 0.6) { 
+            statusClass = 'available-3d'; 
+            statusText = 'متاحة'; 
+            statusColor = '#3498db'; 
+        } else if (rand > 0.3) { 
+            statusClass = 'sold-3d'; 
+            statusText = 'مبيوعة'; 
+            statusColor = '#e74c3c'; 
+        } else { 
+            statusClass = 'reserved-3d'; 
+            statusText = 'محجوزة'; 
+            statusColor = '#95a5a6'; 
         }
+        
+        plot.className = `plot-3d ${statusClass}`;
+        plot.innerText = i; // رقم القطعة داخل البلوك
+        const area = (600 + Math.floor(Math.random() * 200)); // مساحة عشوائية للواقعية
+
+        // أحداث الماوس للبوب أب
+        plot.addEventListener('mouseenter', () => { 
+            infoPopup3d.style.display = 'block'; 
+        });
+
+        plot.addEventListener('mousemove', (e) => {
+            infoPopup3d.style.left = (e.clientX + 20) + 'px';
+            infoPopup3d.style.top = (e.clientY + 20) + 'px';
+            infoPopup3d.innerHTML = `
+                <div style="font-weight:900; color:#ffcf8a; border-bottom:1px solid #444; margin-bottom:5px; padding-bottom:5px;">تفاصيل العقار</div>
+                <b>رقم البلوك:</b> ${bNum}<br>
+                <b>رقم القطعة:</b> ${i}<br>
+                <b>المساحة:</b> ${area} م٢<br>
+                <b>الحالة:</b> <span style="color:${statusColor}">${statusText}</span>
+            `;
+        });
+
+        plot.addEventListener('mouseleave', () => { 
+            infoPopup3d.style.display = 'none'; 
+        });
+        
+        grid.appendChild(plot);
     }
+    block.appendChild(grid);
+    mapContainer3d.appendChild(block);
+});
+
+// وظائف التحريك والزووم
+function updateTransform3d() {
+    zoomContainer3d.style.transform = `translate(${pos3d.x}px, ${pos3d.y}px) scale(${scale3d})`;
+    coords3d.innerText = `X: ${pos3d.x.toFixed(2)}, Y: ${pos3d.y.toFixed(2)} | ZOOM: ${Math.round(scale3d * 100)}%`;
 }
 
-viewport.onmousedown = (e) => { isDragging = true; startX = e.clientX - tx; startY = e.clientY - ty; viewport.style.cursor = 'grabbing'; };
-window.onmouseup = () => { isDragging = false; viewport.style.cursor = 'grab'; };
-window.onmousemove = (e) => {
-    if (isDragging) { tx = e.clientX - startX; ty = e.clientY - startY; update(); }
-    let rect = viewport.getBoundingClientRect();
-    document.getElementById('coords').innerText = `X: ${Math.round((e.clientX - rect.left - tx)/scale)}, Y: ${Math.round((e.clientY - rect.top - ty)/scale)}`;
-};
-viewport.onwheel = (e) => { e.preventDefault(); scale *= e.deltaY > 0 ? 0.9 : 1.1; update(); };
-function zoomIn() { scale *= 1.2; update(); }
-function zoomOut() { scale *= 0.8; update(); }
-function resetView() { scale = 1; tx = 0; ty = 0; update(); }
-function update() { wrapper.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`; }
+viewport3d.addEventListener('mousedown', e => {
+    if(e.button === 0) {
+        isDragging3d = true;
+        startPos3d = { x: e.clientX - pos3d.x, y: e.clientY - pos3d.y };
+        viewport3d.style.cursor = 'grabbing';
+    }
+});
 
-createPlots();
+window.addEventListener('mouseup', () => {
+    isDragging3d = false;
+    viewport3d.style.cursor = 'grab';
+});
+
+window.addEventListener('mousemove', e => {
+    if (!isDragging3d) return;
+    pos3d.x = e.clientX - startPos3d.x;
+    pos3d.y = e.clientY - startPos3d.y;
+    updateTransform3d();
+});
+
+viewport3d.addEventListener('wheel', e => {
+    e.preventDefault();
+    const zoomSpeed = 0.1;
+    const delta = e.deltaY > 0 ? (1 - zoomSpeed) : (1 + zoomSpeed);
+    const newScale = scale3d * delta;
+    if (newScale > 0.2 && newScale < 3) {
+        scale3d = newScale;
+        updateTransform3d();
+    }
+}, { passive: false });
+
+updateTransform3d();
 </script>
 </body>
 </html>
